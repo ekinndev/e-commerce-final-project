@@ -65,7 +65,6 @@ This starter is created by my personal experience and also my taste.
 - [Tailwind CSS](https://tailwindcss.com/)
 - [Playwright](https://playwright.dev/)
 - [MongoDb](https://www.mongodb.com/)
-- [Next-i18next](https://github.com/isaachinman/next-i18next)
 - [Jest](https://jestjs.io/)
 - [Supertest](https://www.npmjs.com/package/supertest)
 - [Express](https://expressjs.com/)
