@@ -1,9 +1,12 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useGlobalContext } from '../context/globalCtx';
+import { ActionType } from '../context/globalReducer';
 
 export default function Home() {
   const router = useRouter();
+  const { state, dispatch } = useGlobalContext();
 
   return (
     <div>
@@ -19,10 +22,12 @@ export default function Home() {
         </h1>
         <h2>Hello World</h2>
         <Link href="/" locale={router.locale === 'en' ? 'tr' : 'en'}>
-          <button type="button">Deneme</button>
+          <button onClick={() => dispatch({ count: 10, type: ActionType.INCREMENT_COUNTER })} type="button">
+            Deneme
+          </button>
         </Link>
         <p>
-          Get started by editing
+          {state.age}
           <code>pages/index.js</code>
         </p>
 
