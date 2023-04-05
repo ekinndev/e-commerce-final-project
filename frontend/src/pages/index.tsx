@@ -20,7 +20,7 @@ export default function Home() {
           Welcome to
           <a href="https://nextjs.org"> Next.js2!!!!!!!</a>
         </h1>
-        <h2>Hello World</h2>
+        <h2>Hello Mete</h2>
         <Link href="/" locale={router.locale === 'en' ? 'tr' : 'en'}>
           <button onClick={() => dispatch({ count: 10, type: ActionType.INCREMENT_COUNTER })} type="button">
             Deneme
