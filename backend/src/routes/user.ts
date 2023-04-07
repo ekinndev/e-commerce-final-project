@@ -1,43 +1,14 @@
 import express, { Request, ErrorRequestHandler, Response } from 'express';
 const router = express.Router();
-import session from 'express-session';
 import passport from 'passport';
-import MongoStore from 'connect-mongo';
 import UserModel from '../models/User';
+import type { RequestWithUser } from '../types';
 
 declare module 'express-session' {
     export interface SessionData {
         userId: { [key: string]: any };
     }
 }
-export interface RequestWithUser extends Request {
-    user?: any;
-}
-
-router.use(
-    session({
-        store: MongoStore.create({
-            mongoUrl: process.env.DATABASE_URL || 'mongodb://mongodb/test',
-            stringify: false,
-        }) as unknown as session.Store,
-        secret: 'thisissupposedtobeasecret',
-        cookie: {
-            maxAge: 14 * 24 * 60 * 60 * 1000,
-            sameSite: process.env.NODE_ENV === 'production' && 'none',
-            secure: process.env.NODE_ENV === 'production',
-        },
-        resave: false,
-        saveUninitialized: false,
-    }),
-);
-
-router.use(passport.initialize());
-router.use(passport.session());
-
-passport.use(UserModel.createStrategy());
-
-passport.serializeUser(UserModel.serializeUser());
-passport.deserializeUser(UserModel.deserializeUser());
 
 router.post('/register', async (req, res, next) => {
     try {

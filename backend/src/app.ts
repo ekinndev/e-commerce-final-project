@@ -1,5 +1,10 @@
 import express, { NextFunction, Request, Response } from 'express';
 import dotenv from 'dotenv';
+import MongoStore from 'connect-mongo';
+import session from 'express-session';
+import passport from 'passport';
+import UserModel from './models/User';
+
 dotenv.config();
 
 import userRoutes from './routes/user';
@@ -11,6 +16,31 @@ if (process.env.NODE_ENV !== 'test') {
 const app = express();
 
 app.use(express.json());
+
+app.use(
+    session({
+        store: MongoStore.create({
+            mongoUrl: process.env.DATABASE_URL || 'mongodb://mongodb/test',
+            stringify: false,
+        }) as unknown as session.Store,
+        secret: 'thisissupposedtobeasecret',
+        cookie: {
+            maxAge: 14 * 24 * 60 * 60 * 1000,
+            sameSite: process.env.NODE_ENV === 'production' && 'none',
+            secure: process.env.NODE_ENV === 'production',
+        },
+        resave: false,
+        saveUninitialized: false,
+    }),
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.use(UserModel.createStrategy());
+
+passport.serializeUser(UserModel.serializeUser());
+passport.deserializeUser(UserModel.deserializeUser());
 
 app.use('/user', userRoutes);
 
