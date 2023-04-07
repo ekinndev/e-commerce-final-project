@@ -1,20 +1,31 @@
-import express, { Request, Response } from 'express';
-import { PrismaClient } from '@prisma/client';
+import express, { NextFunction, Request, Response } from 'express';
+import dotenv from 'dotenv';
+dotenv.config();
 
-const prisma = new PrismaClient();
+import userRoutes from './routes/user';
+
+if (process.env.NODE_ENV !== 'test') {
+    import('./mongo-connection');
+}
 
 const app = express();
-import exampleRoute from './routes/';
 
-app.use('/ekin', exampleRoute);
+app.use(express.json());
 
-app.get('/', async (req: Request, res: Response) => {
-    await prisma.$connect();
+app.use('/user', userRoutes);
 
-    const test = await prisma.post.create({ data: { title: 'test' } });
+app.get('/', (req, res) => {
+    res.send({ message: 'Welcome to the API', status: 200 });
+});
 
-    await prisma.$disconnect();
-    res.send(test);
+app.use('*', (req, res) => {
+    res.status(404).send({ message: 'Invalid Route', status: 404 });
+});
+
+app.use((err: { status: number }, req: Request, res: Response, next: NextFunction) => {
+    let status = err.status || 500;
+
+    res.status(status).send(err);
 });
 
 module.exports = app;

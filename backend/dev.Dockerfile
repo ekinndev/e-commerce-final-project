@@ -10,8 +10,6 @@ RUN npm install
 
 COPY . .
 
-RUN npx prisma generate
-
 VOLUME [ "/app/src" ]
 
 EXPOSE 3000
