@@ -8,9 +8,19 @@ import UserModel from './models/User';
 dotenv.config();
 
 import userRoutes from './routes/user';
+import productRoutes from './routes/product';
 
 if (process.env.NODE_ENV !== 'test') {
     import('./mongo-connection');
+}
+
+declare global {
+    namespace NodeJS {
+        interface ProcessEnv {
+            DATABASE_URL: string;
+            NODE_ENV: 'development' | 'production' | 'test';
+        }
+    }
 }
 
 const app = express();
@@ -43,6 +53,7 @@ passport.serializeUser(UserModel.serializeUser());
 passport.deserializeUser(UserModel.deserializeUser());
 
 app.use('/user', userRoutes);
+app.use('/product', productRoutes);
 
 app.get('/', (req, res) => {
     res.send({ message: 'Welcome to the API', status: 200 });
