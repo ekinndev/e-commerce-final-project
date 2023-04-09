@@ -11,6 +11,15 @@ declare module 'express-session' {
     }
 }
 
+const sessionErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
+    if (err.status !== 401) return next(err);
+
+    next({
+        message: 'The username and password you provided did not match our records. Please double-check and try again.',
+        status: 401,
+    });
+};
+
 router.post('/register', async (req, res, next) => {
     try {
         const { name, email, password } = req.body;
@@ -29,14 +38,6 @@ router.post('/register', async (req, res, next) => {
         next(e);
     }
 });
-const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
-    if (err.status !== 401) return next(err);
-
-    next({
-        message: 'The username and password you provided did not match our records. Please double-check and try again.',
-        status: 401,
-    });
-};
 
 router.post(
     '/session',
@@ -47,7 +48,7 @@ router.post(
         req.session.save();
         res.status(200).send(req.user);
     },
-    errorHandler,
+    sessionErrorHandler,
 );
 
 router.get('/me', async (req, res, next) => {
