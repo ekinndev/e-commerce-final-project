@@ -12,4 +12,11 @@ const productSchema = new Schema(
     { timestamps: true },
 );
 
+export interface IProduct extends mongoose.Document {
+    name: string;
+    description: string;
+    creator: mongoose.Types.ObjectId;
+    image: mongoose.Types.ObjectId;
+}
+
 export default mongoose.model('product', productSchema);
