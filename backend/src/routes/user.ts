@@ -54,6 +54,13 @@ router.get('/me', async (req, res, next) => {
     res.send(req.user);
 });
 
+router.delete('/logout', async (req, res, next) => {
+    req.session.destroy(err => {
+        if (err) return next(err);
+        res.sendStatus(200);
+    });
+});
+
 router.post('/favorites', async (req: RequestWithUser, res, next) => {
     try {
         const { productId } = req.body;
