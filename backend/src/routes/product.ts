@@ -1,12 +1,10 @@
 import express, { Request, Response, NextFunction } from 'express';
 import Product from '../models/Product';
 import type { RequestWithUser } from '../types';
-import sharp from 'sharp';
 import { Storage } from '@google-cloud/storage';
 import { v4 as uuidv4 } from 'uuid';
 import multer from 'multer';
 import File from '../models/File';
-import fs from 'fs';
 import serviceAccountFile from './service-account.json';
 
 const upload = multer({ dest: 'uploads/' });
