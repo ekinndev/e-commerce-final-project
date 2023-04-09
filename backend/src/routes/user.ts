@@ -3,6 +3,7 @@ const router = express.Router();
 import passport from 'passport';
 import UserModel from '../models/User';
 import type { RequestWithUser } from '../types';
+import type { IProduct } from '../models/Product';
 
 declare module 'express-session' {
     export interface SessionData {
@@ -51,6 +52,50 @@ router.post(
 
 router.get('/me', async (req, res, next) => {
     res.send(req.user);
+});
+
+router.post('/favorites', async (req: RequestWithUser, res, next) => {
+    try {
+        const { productId } = req.body;
+        if (req.user) {
+            const user = await UserModel.findById(req.user._id);
+
+            if (!user) return res.status(400).send({ message: 'User not found', status: 400 });
+
+            const isFavorite = user.favorites.find((favorite: IProduct) => favorite._id.toString() === productId);
+
+            if (isFavorite) {
+                user.favorites = user.favorites.filter((favorite: IProduct) => favorite._id.toString() !== productId);
+            } else {
+                user.favorites.push(productId);
+            }
+
+            await user.save();
+
+            res.sendStatus(200);
+        }
+    } catch (e) {
+        next(e);
+    }
+});
+
+router.delete('/favorites/:productId', async (req: RequestWithUser, res, next) => {
+    try {
+        const { productId } = req.params;
+        if (req.user) {
+            const user = await UserModel.findById(req.user._id);
+
+            if (!user) return res.status(400).send({ message: 'User not found', status: 400 });
+
+            user.favorites = user.favorites.filter((favorite: IProduct) => favorite._id.toString() !== productId);
+
+            await user.save();
+
+            res.sendStatus(200);
+        }
+    } catch (e) {
+        next(e);
+    }
 });
 
 export default router;

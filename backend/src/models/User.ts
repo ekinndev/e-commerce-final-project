@@ -7,6 +7,7 @@ const userSchema = new Schema(
     {
         name: { type: String, required: true, minlength: 2, maxlength: 64 },
         role: { type: String, required: true, enum: ['user', 'admin'], default: 'user' },
+        favorites: [{ type: Schema.Types.ObjectId, ref: 'product' }],
     },
     { timestamps: true },
 );
