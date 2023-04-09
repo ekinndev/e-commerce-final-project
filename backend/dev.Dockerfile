@@ -6,11 +6,9 @@ RUN npm install tsc-watch -g
 
 COPY package.json package-lock.json ./
 
-RUN npm install
+RUN npm install --force
 
 COPY . .
-
-RUN npx prisma generate
 
 VOLUME [ "/app/src" ]
 
