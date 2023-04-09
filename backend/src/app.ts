@@ -4,6 +4,8 @@ import MongoStore from 'connect-mongo';
 import session from 'express-session';
 import passport from 'passport';
 import UserModel from './models/User';
+import swaggerUI from 'swagger-ui-express';
+import swaggerDocument from './helpers/swagger';
 
 dotenv.config();
 
@@ -51,6 +53,8 @@ passport.use(UserModel.createStrategy());
 
 passport.serializeUser(UserModel.serializeUser());
 passport.deserializeUser(UserModel.deserializeUser());
+
+app.use('/swagger', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
 app.use('/user', userRoutes);
 app.use('/product', productRoutes);

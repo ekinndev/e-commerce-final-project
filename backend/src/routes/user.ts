@@ -51,6 +51,16 @@ router.post(
     sessionErrorHandler,
 );
 
+/**
+ * @swagger
+ * /user/me:
+ *   get:
+ *     tags: [USER]
+ *     description: Returns a user information with favorites!
+ *     responses:
+ *       200:
+ *         description: Returns a user information with favorites
+ */
 router.get('/me', async (req, res, next) => {
     res.send(req.user);
 });
