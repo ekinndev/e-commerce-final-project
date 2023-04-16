@@ -12,6 +12,7 @@ dotenv.config();
 import userRoutes from './routes/user';
 import productRoutes from './routes/product';
 import basketRoutes from './routes/basket';
+import cors from 'cors';
 
 if (process.env.NODE_ENV !== 'test') {
     import('./mongo-connection');
@@ -27,6 +28,13 @@ declare global {
 }
 
 const app = express();
+
+app.use(
+    cors({
+        origin: process.env.NODE_ENV === 'production' ? ['https://e-commerce-final-be-penwtklslq-ew.a.run.app'] : true,
+        credentials: true,
+    }),
+);
 
 app.use(express.json());
 
