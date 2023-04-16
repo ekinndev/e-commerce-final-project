@@ -13,6 +13,8 @@ import userRoutes from './routes/user';
 import productRoutes from './routes/product';
 import basketRoutes from './routes/basket';
 import cors from 'cors';
+import helmet from 'helmet';
+import compression from 'compression';
 
 if (process.env.NODE_ENV !== 'test') {
     import('./mongo-connection');
@@ -28,6 +30,9 @@ declare global {
 }
 
 const app = express();
+
+app.use(helmet());
+app.use(compression());
 
 app.use(
     cors({
