@@ -18,7 +18,10 @@ const options = {
         },
         servers: [
             {
-                url: 'http://localhost:3000/',
+                url:
+                    process.env.NODE_ENV === 'development'
+                        ? 'http://localhost:3000/'
+                        : 'https://e-commerce-final-be-penwtklslq-ew.a.run.app/',
             },
         ],
     },
