@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
 const basketProductItem = new Schema({
-    product: { type: Schema.Types.ObjectId, ref: 'product', required: true },
+    productId: { type: Schema.Types.ObjectId, ref: 'product', required: true },
     quantity: { type: Number, required: true, min: 1 },
 });
 
