@@ -19,7 +19,42 @@ const sessionErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
         status: 401,
     });
 };
-
+/**
+ * @swagger
+ * /user/register/:
+ *   post:
+ *     tags: [USER]
+ *     summary: Register an user
+ *     responses:
+ *       200:
+ *         description: Create user and to start session.
+ *         content:
+ *           application/json:
+ *             schema:
+ *                type: String
+ *                example: OK
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 description: User's email.
+ *                 example: hello@gmail.com
+ *               password:
+ *                 type: string
+ *                 description: User's password
+ *                 example: 123456
+ *               name:
+ *                 type: string
+ *                 description: User's name
+ *                 example: Ekin
+ *
+ *
+ */
 router.post('/register', async (req, res, next) => {
     try {
         const { name, email, password } = req.body;
@@ -38,7 +73,37 @@ router.post('/register', async (req, res, next) => {
         next(e);
     }
 });
-
+/**
+ * @swagger
+ * /user/session/:
+ *   post:
+ *     tags: [USER]
+ *     summary: Signin as an user
+ *     responses:
+ *       200:
+ *         description: Signin as a user and to start session.
+ *         content:
+ *           application/json:
+ *             schema:
+ *                type: String
+ *                example: OK
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 description: User's email.
+ *                 example: hello@gmail.com
+ *               password:
+ *                 type: string
+ *                 description: User's password
+ *                 example: 123456
+ *
+ */
 router.post(
     '/session',
 
@@ -61,9 +126,22 @@ router.post(
  *       200:
  *         description: Returns a user information with favorites
  */
-router.get('/me', async (req, res, next) => {
+router.get('/me', (req, res, next) => {
+    if (!req.user) return res.status(401).send({ message: 'Unauthorized', status: 401 });
+
     res.send(req.user);
 });
+
+/**
+ * @swagger
+ * /user/logout:
+ *   delete:
+ *     tags: [USER]
+ *     description: Returns a user information with favorites!
+ *     responses:
+ *       200:
+ *         description: Returns a user information with favorites
+ */
 
 router.delete('/logout', async (req, res, next) => {
     req.session.destroy(err => {
@@ -71,7 +149,32 @@ router.delete('/logout', async (req, res, next) => {
         res.sendStatus(200);
     });
 });
-
+/**
+ * @swagger
+ * /user/favorites/:
+ *   post:
+ *     tags: [USER]
+ *     summary: Mark a product as favorite
+ *     responses:
+ *       200:
+ *         description: Signin as a user and to start session.
+ *         content:
+ *           application/json:
+ *             schema:
+ *                type: String
+ *                example: OK
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               productId:
+ *                 type: string
+ *                 description: ObjectId of product
+ *
+ */
 router.post('/favorites', async (req: RequestWithUser, res, next) => {
     try {
         const { productId } = req.body;
@@ -96,7 +199,28 @@ router.post('/favorites', async (req: RequestWithUser, res, next) => {
         next(e);
     }
 });
-
+/**
+ * @swagger
+ * /user/favorites/{productId}:
+ *   delete:
+ *     tags: [USER]
+ *     summary: Remove a product from favorites
+*     parameters:
+ *       - in: path
+ *         name: productId
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Signin as a user and to start session.
+ *         content:
+ *           application/json:
+ *             schema:
+ *                type: String
+ *                example: OK
+ *
+ */
 router.delete('/favorites/:productId', async (req: RequestWithUser, res, next) => {
     try {
         const { productId } = req.params;

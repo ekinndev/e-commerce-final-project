@@ -11,6 +11,7 @@ dotenv.config();
 
 import userRoutes from './routes/user';
 import productRoutes from './routes/product';
+import basketRoutes from './routes/basket';
 
 if (process.env.NODE_ENV !== 'test') {
     import('./mongo-connection');
@@ -58,6 +59,7 @@ app.use('/swagger', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
 app.use('/user', userRoutes);
 app.use('/product', productRoutes);
+app.use('/basket', basketRoutes);
 
 app.get('/', (req, res) => {
     res.send({ message: 'Welcome to the API', status: 200 });

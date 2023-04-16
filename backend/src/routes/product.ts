@@ -19,18 +19,40 @@ const ensureUser = (req: Request, res: Response, next: NextFunction) => {
     if (!req.user) return next({ status: 401, message: 'Unauthorized' });
     next();
 };
-
+/**
+ * @swagger
+ * /product/{productId}:
+ *   get:
+ *     tags: [PRODUCT]
+ *     summary: Get a product by id
+ *     parameters:
+ *       - in: path
+ *         name: productId
+ *         required: true
+ *         schema:
+ *           type: string
+ *
+ */
 router.get('/:productId', ensureUser, async (req: RequestWithUser, res: Response, next: NextFunction) => {
     const userId = req.user._id;
     const { productId } = req.params;
 
-    const product = Product.findOne({ productId });
+    const product = Product.findOne({ productId, creator: userId });
 
     if (!product) return next({ status: 404, message: 'Product not found' });
 
     res.send(product);
 });
-
+/**
+ * @swagger
+ * /product/:
+ *   get:
+ *     tags: [PRODUCT]
+ *     description: Returns users all products
+ *     responses:
+ *       200:
+ *         description: Returns a user information with favorites
+ */
 router.get('/', ensureUser, async (req: RequestWithUser, res: Response, next: NextFunction) => {
     const userId = req.user._id;
 
@@ -38,7 +60,31 @@ router.get('/', ensureUser, async (req: RequestWithUser, res: Response, next: Ne
 
     return res.send(products);
 });
-
+/**
+ * @swagger
+ * /product/:
+ *   post:
+ *     tags: [PRODUCT]
+ *     summary: Register an product
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 description: Name of the product.
+ *               description:
+ *                 type: string
+ *                 description: Description of the product.
+ *               image:
+ *                 type: file
+ *                 description: image of the product.
+ *
+ *
+ */
 router.post(
     '/create',
     ensureUser,
