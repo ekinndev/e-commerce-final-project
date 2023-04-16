@@ -41,3 +41,5 @@ router.delete('/:productId', async (req: RequestWithUser, res: Response, next: N
 
     res.send(basket);
 });
+
+export default router;
