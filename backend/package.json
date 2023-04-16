@@ -9,7 +9,7 @@
         "start": "NODE_ENV=development node ./bin/www",
         "start:prod": "NODE_ENV=production node ./bin/www",
         "build": "tsc --outDir ./build ",
-        "watch": "tsc-watch --outDir ./build  --onSuccess \"node ./bin/www\""
+        "watch": "tsc-watch --outDir ./build  --onSuccess \"npm start\""
     },
     "author": "Ekin Abalioglu",
     "license": "MIT",
