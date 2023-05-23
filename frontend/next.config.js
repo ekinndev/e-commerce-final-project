@@ -6,6 +6,19 @@
  * @type {import('next').NextConfig}
  **/
 
-module.exports = {
+const nextConfig = {
   output: 'standalone',
+  swcMinify: true,
+  optimizeFonts: true,
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'res.cloudinary.com',
+      },
+    ],
+    minimumCacheTTL: 15000000,
+  },
 };
+
+module.exports = nextConfig;
