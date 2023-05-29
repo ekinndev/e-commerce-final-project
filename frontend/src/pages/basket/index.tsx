@@ -1,5 +1,9 @@
 import React from 'react';
-import { IBasketItemCartProps } from './types';
+
+interface IBasketItemCartProps {
+  isOpen: boolean;
+  text: string;
+}
 
 const BasketItemCart: React.FC<IBasketItemCartProps> = props => {
   return (

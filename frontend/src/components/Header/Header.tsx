@@ -20,7 +20,7 @@ const Header: FC = props => {
             <input
               type="text"
               className="w-full overflow-hidden rounded-lg border border-[#0D6EFD] h-10 pl-4 pr-20 text-sm"
-              value={search}
+              value={search as string}
               onChange={handleText}
               placeholder="Search"
             />

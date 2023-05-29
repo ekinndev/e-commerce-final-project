@@ -2,7 +2,7 @@ import React, { FC, useState } from 'react';
 import { INewsletterProps } from './types';
 
 const Newsletter: FC = props => {
-  const [email, setEmail] = useState<string | null>('');
+  const [email, setEmail] = useState<string>('');
   const handleText = (e: React.FocusEvent<HTMLInputElement>): void => {
     setEmail(e.currentTarget.value);
   };
