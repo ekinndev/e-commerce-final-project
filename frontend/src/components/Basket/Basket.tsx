@@ -1,7 +1,6 @@
-import React from 'react';
-import { IBasketItemCartProps } from './types';
+import React, { FC } from 'react';
 
-const BasketItemCart: React.FC<IBasketItemCartProps> = props => {
+const Basket: FC = props => {
   return (
     <body>
       <div className="h-screen bg-gray-100 pt-20">
@@ -130,4 +129,4 @@ const BasketItemCart: React.FC<IBasketItemCartProps> = props => {
   );
 };
 
-export default BasketItemCart;
+export default Basket;
