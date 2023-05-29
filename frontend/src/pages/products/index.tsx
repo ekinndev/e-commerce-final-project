@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { IconHeart } from '../../assets/icons';
 
-export default function Products({ productData }) {
+export default function Products({ productData }: { productData: any }) {
   return (
     <section className=" bg-gray-50 border-t">
       <Head>
@@ -15,7 +15,7 @@ export default function Products({ productData }) {
         <div className="container__filter w-1/4 mr-3">Filter</div>
         <div className="container__product">
           <ul className="flex flex-wrap mx-auto my-0 max-w-100">
-            {productData?.products?.map(item => (
+            {productData?.products?.map((item: any) => (
               <li
                 key={item.id}
                 className="rounded-md bg-white flex flex-col justify-center mx-4 my-2.5 lg:w-[calc(22%)] md:w-[calc(33%_-_1.25rem)] shadow-md"

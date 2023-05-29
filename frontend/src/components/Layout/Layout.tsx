@@ -1,6 +1,6 @@
 import { Footer, Header, Navbar, Newsletter } from '../';
 
-export default function Layout({ children }) {
+const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
     <main>
       <Header />
@@ -10,4 +10,6 @@ export default function Layout({ children }) {
       <Footer />
     </main>
   );
-}
+};
+
+export default Layout;

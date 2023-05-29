@@ -1,8 +1,9 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { Footer, Newsletter, Header } from '../../components';
+import { GetServerSideProps } from 'next';
 
-export default function ProductDetails({ data }) {
+export default function ProductDetails({ data }: { data: any }) {
   console.log(data);
   return (
     <div className="h-screen">
@@ -15,12 +16,18 @@ export default function ProductDetails({ data }) {
   );
 }
 
-export const getServerSideProps = async ({ params }) => {
-  const response = await fetch(`https://mern-ecommerce-backend-ten.vercel.app/api/products/${params.slug}`);
-  const data = await response.json();
+export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+  if (params && params.slug) {
+    const response = await fetch(`https://mern-ecommerce-backend-ten.vercel.app/api/products/${params.slug}`);
+    const data = await response.json();
+    return {
+      props: {
+        data,
+      },
+    };
+  }
   return {
-    props: {
-      data,
-    },
+    notFound: true,
+    props: {},
   };
 };
