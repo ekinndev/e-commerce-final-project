@@ -1,7 +1,5 @@
 import React, { FC, useState } from 'react';
-import { IHeaderProps } from './types';
-import { IconBrandLogo, IconCart, IconFavorites, IconMessage, IconProfile } from '../../assets/icons';
-import { Navbar } from '../';
+import { IconBrandLogo, IconCart, IconFavorites, IconHamburger, IconMessage, IconProfile } from '../../assets/icons';
 
 const Header: FC = props => {
   const [search, setSearch] = useState<string | null>('');
@@ -9,7 +7,7 @@ const Header: FC = props => {
     setSearch(e.currentTarget.value);
   };
   return (
-    <header className="bg-white border-b">
+    <header className="bg-white border-b sticky top-0 z-10">
       <div className="max-w-[1440px] mx-auto">
         <div className="py-5 flex justify-between items-center">
           <div className="flex items-center">
@@ -52,6 +50,19 @@ const Header: FC = props => {
           </div>
         </div>
       </div>
+      <nav className=" py-3 max-w-[1440px] mx-auto flex items-center justify-between sticky top-0">
+        <div className="flex gap-x-4 items-center">
+          <div className="flex cursor-pointer select-none items-center gap-x-2 py-1 px-2 first:px-0 text-black">
+            <IconHamburger />
+            <span className="text-sm font-medium">All Category</span>
+          </div>
+          <span className="cursor-pointer rounded-sm py-1 px-2 text-sm font-medium ">Hot offers</span>
+          <span className="cursor-pointer rounded-sm py-1 px-2 text-sm font-medium ">Gift boxes</span>
+          <span className="cursor-pointer rounded-sm py-1 px-2 text-sm font-medium ">Projects</span>
+          <span className="cursor-pointer rounded-sm py-1 px-2 text-sm font-medium ">Menu item</span>
+          <span className="cursor-pointer rounded-sm py-1 px-2 text-sm font-medium ">Help</span>
+        </div>
+      </nav>
     </header>
   );
 };
