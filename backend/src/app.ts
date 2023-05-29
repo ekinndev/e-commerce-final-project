@@ -36,7 +36,7 @@ app.use(compression());
 
 app.use(
     cors({
-        origin: process.env.NODE_ENV === 'production' ? ['https://e-commerce-final-penwtklslq-ew.a.run.app'] : true,
+        origin: process.env.NODE_ENV === 'production' ? ['*'] : true,
         credentials: true,
     }),
 );
@@ -52,8 +52,8 @@ app.use(
         secret: 'thisissupposedtobeasecret',
         cookie: {
             maxAge: 14 * 24 * 60 * 60 * 1000,
-            sameSite: process.env.NODE_ENV === 'production' && 'none',
-            secure: process.env.NODE_ENV === 'production',
+            sameSite: false,
+            secure: false,
         },
         resave: false,
         saveUninitialized: false,
