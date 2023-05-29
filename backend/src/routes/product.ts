@@ -79,14 +79,14 @@ router.get('/', ensureUser, async (req: RequestWithUser, res: Response, next: Ne
  *               description:
  *                 type: string
  *                 description: Description of the product.
- *               image:
+ *               productImage:
  *                 type: file
  *                 description: image of the product.
  *
  *
  */
 router.post(
-    '/create',
+    '/',
     ensureUser,
     upload.single('productImage'),
     async (req: RequestWithUser, res: Response, next: NextFunction) => {
