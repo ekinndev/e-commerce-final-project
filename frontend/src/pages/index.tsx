@@ -16,9 +16,9 @@ export default function Home() {
       {/* <Products /> */}
       {/* <Basket/> */}
       {/* <ProductDetail /> */}
-      <div className="h-screen bg-gray-100 pt-5 ">
-        <div className="mx-auto max-w-7xl justify-center px-6 md:flex md:space-x-6 xl:px-0">
-          <div className=" mt-6  rounded-lg  bg-white p-6 shadow-md md:mt-0 md:w-1/4 ">
+      <div className="min-h-screen bg-gray-100 py-5 ">
+        <div className="mx-auto max-w-[1440px] justify-center  md:grid grid-cols-12">
+          <div className=" mt-6  rounded-lg  bg-white p-6 shadow-md md:mt-0 col-span-3 ">
             <div className="bg-white  rounded-md ">
               <div className=" bg-white py-1 rounded-md cursor-pointer  text-gray-600 hover:bg-blue-200">
                 <a className=" mx-6 text-lg ">Automobilies</a>
@@ -58,7 +58,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className=" col-span-8 bg-gradient-to-tr from-indigo-800 to-indigo-500 flex items-center mt-6 rounded-lg border bg-white p-6 shadow-md md:mt-0 md:w-2/3 ">
+          <div className=" bg-gradient-to-tr from-indigo-800 to-indigo-500 flex items-center mt-6 rounded-lg border bg-white p-6 shadow-md md:mt-0 col-span-9 ">
             <div className="ml-20 w-80">
               <h2 className="text-white text-4xl">Latest trending</h2>
               <h2 className="text-white text-4xl">
@@ -76,10 +76,7 @@ export default function Home() {
         </div>
 
         <div>
-          <div
-            className=" grid grid-cols-1 gap-8 mt-8 xl:mt-12 xl:gap-12
-   sm:grid-cols-2 xl:grid-cols-5 lg:grid-cols-3"
-          >
+          <div className=" max-w-[1440px]  mx-auto flex flex-wrap justify-between gap-8 mt-8 xl:mt-12 xl:gap-12">
             <div className="max-w-xs rounded-md overflow-hidden shadow-lg hover:scale-105 transition duration-500 cursor-pointer">
               <div>
                 <img src="https://media.ldlc.com/r1600/ld/products/00/05/82/02/LD0005820208_1.jpg" alt="" />

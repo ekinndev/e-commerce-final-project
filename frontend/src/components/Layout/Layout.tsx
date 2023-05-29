@@ -1,10 +1,9 @@
-import { Footer, Header, Navbar, Newsletter } from '../';
+import { Footer, Header, Newsletter } from '../';
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
     <main>
       <Header />
-      <Navbar />
       {children}
       <Newsletter />
       <Footer />
