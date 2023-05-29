@@ -3,6 +3,9 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useGlobalContext } from '../context/globalCtx';
 import Products from './products';
+import Basket from '../components/Basket/Basket';
+import ProductDetail from './productDetail';
+import MainPage from './mainPage';
 
 export default function Home() {
   const router = useRouter();
@@ -14,7 +17,10 @@ export default function Home() {
         <title>Create Next App </title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Products />
+      {/* <Products /> */}
+      {/* <Basket/> */}
+      {/* <ProductDetail /> */}
+      <MainPage />
     </div>
   );
 }
