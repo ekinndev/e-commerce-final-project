@@ -36,11 +36,10 @@ const ensureUser = (req: Request, res: Response, next: NextFunction) => {
  *         description: Returns a product information
  *
  */
-router.get('/:productId', ensureUser, async (req: RequestWithUser, res: Response, next: NextFunction) => {
-    const userId = req.user._id;
+router.get('/:productId', async (req: RequestWithUser, res: Response, next: NextFunction) => {
     const { productId } = req.params;
 
-    const product = Product.findOne({ productId, creator: userId });
+    const product = Product.findById(productId);
 
     if (!product) return next({ status: 404, message: 'Product not found' });
 
@@ -57,9 +56,7 @@ router.get('/:productId', ensureUser, async (req: RequestWithUser, res: Response
  *         description: Returns a user information with favorites
  */
 router.get('/', ensureUser, async (req: RequestWithUser, res: Response, next: NextFunction) => {
-    const userId = req.user._id;
-
-    const products = await Product.find({ userId });
+    const products = await Product.find();
 
     return res.send(products);
 });
