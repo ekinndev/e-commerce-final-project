@@ -31,6 +31,9 @@ const ensureUser = (req: Request, res: Response, next: NextFunction) => {
  *         required: true
  *         schema:
  *           type: string
+ *     responses:
+ *       200:
+ *         description: Returns a product information
  *
  */
 router.get('/:productId', ensureUser, async (req: RequestWithUser, res: Response, next: NextFunction) => {
@@ -82,7 +85,9 @@ router.get('/', ensureUser, async (req: RequestWithUser, res: Response, next: Ne
  *               productImage:
  *                 type: file
  *                 description: image of the product.
- *
+ *     responses:
+ *       200:
+ *         description: Returns products
  *
  */
 router.post(
