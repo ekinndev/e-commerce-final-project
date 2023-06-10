@@ -51,9 +51,17 @@ router.get('/', async (req: RequestWithUser, res: Response, next: NextFunction) 
  */
 router.post('/', async (req: RequestWithUser, res: Response, next: NextFunction) => {
     const userId = req.user._id;
-    const usersBasket = await Basket.findOne({ creator: userId });
+    const usersBasket = await Basket.findOne({ user: userId });
 
     if (usersBasket) {
+        const findProduct = usersBasket.products.filter(
+            (product: any) => product?.productId == req.body.productId.toString(),
+        );
+        if (findProduct.length > 0) {
+            findProduct[0].quantity = req.body.quantity;
+            await usersBasket.save();
+            return res.send(usersBasket);
+        }
         usersBasket.products.push(req.body);
         await usersBasket.save();
         return res.send(usersBasket);
@@ -69,7 +77,7 @@ router.post('/', async (req: RequestWithUser, res: Response, next: NextFunction)
  *   delete:
  *     tags: [BASKET]
  *     summary: Remove a product from users basket
-*     parameters:
+ *     parameters:
  *       - in: path
  *         name: productId
  *         required: true
@@ -88,7 +96,7 @@ router.delete('/:productId', async (req: RequestWithUser, res: Response, next: N
     const userId = req.user._id;
     const { productId } = req.params;
 
-    const basket = await Basket.findOne({ creator: userId });
+    const basket = await Basket.findOne({ user: userId });
 
     if (!basket) return next({ status: 404, message: 'Basket not found' });
 
