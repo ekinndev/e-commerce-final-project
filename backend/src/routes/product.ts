@@ -39,7 +39,7 @@ const ensureUser = (req: Request, res: Response, next: NextFunction) => {
 router.get('/:productId', async (req: RequestWithUser, res: Response, next: NextFunction) => {
     const { productId } = req.params;
 
-    const product = Product.findById(productId);
+    const product = await Product.findById(productId);
 
     if (!product) return next({ status: 404, message: 'Product not found' });
 
