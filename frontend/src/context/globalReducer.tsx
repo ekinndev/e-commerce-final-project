@@ -5,7 +5,7 @@ export enum ActionType {
 
 export interface IReducer {
   type: ActionType;
-  data: any;
+  data?: any;
 }
 
 export interface IState {

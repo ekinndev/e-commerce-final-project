@@ -1,7 +1,10 @@
 import React, { FC, useState } from 'react';
 import { IconBrandLogo, IconCart, IconFavorites, IconHamburger, IconMessage, IconProfile } from '../../assets/icons';
+import { useGlobalContext } from '../../context/globalCtx';
+import Link from 'next/link';
 
 const Header: FC = props => {
+  const { state } = useGlobalContext();
   const [search, setSearch] = useState<string | null>('');
   const handleText = (e: React.FocusEvent<HTMLInputElement>): void => {
     setSearch(e.currentTarget.value);
@@ -10,9 +13,11 @@ const Header: FC = props => {
     <header className="bg-white border-b sticky top-0 z-10">
       <div className="max-w-[1440px] mx-auto">
         <div className="py-5 flex justify-between items-center">
-          <div className="flex items-center">
-            <IconBrandLogo />
-          </div>
+          <Link href="/">
+            <div className="flex items-center">
+              <IconBrandLogo />
+            </div>
+          </Link>
 
           <div className="flex w-1/2 relative">
             <input
@@ -27,27 +32,34 @@ const Header: FC = props => {
             </button>
           </div>
 
-          <div className="ml-2 flex">
-            <div className="flex flex-col cursor-pointer items-center gap-x-1 rounded-md py-2 px-4">
-              <IconProfile />
-              <span className="text-xs font-normal text-gray-500 pt-1">Profile</span>
+          {!state.profile ? (
+            <div className="ml-2 flex gap-x-4">
+              <Link href="/signin">Sign-in</Link>
+              <Link href="/signup">Sign-up</Link>
             </div>
+          ) : (
+            <div className="ml-2 flex">
+              <Link href="/profile">
+                <div className="flex flex-col cursor-pointer items-center gap-x-1 rounded-md py-2 px-4">
+                  <IconProfile />
+                  <span className="text-xs font-normal text-gray-500 pt-1">Profile</span>
+                </div>
+              </Link>
+              <Link href="/favorites">
+                <div className="flex flex-col cursor-pointer items-center gap-x-1 rounded-md py-2 px-4">
+                  <IconFavorites />
+                  <span className="text-xs font-normal text-gray-500 pt-1">Favorites</span>
+                </div>
+              </Link>
 
-            <div className="flex flex-col cursor-pointer items-center gap-x-1 rounded-md py-2 px-4">
-              <IconMessage />
-              <span className="text-xs font-normal text-gray-500 pt-1">Message</span>
+              <Link href="/basket">
+                <div className="flex flex-col cursor-pointer items-center gap-x-1 rounded-md py-2 px-4 last:pr-0">
+                  <IconCart />
+                  <span className="text-xs font-normal text-gray-500 pt-1">My cart</span>
+                </div>
+              </Link>
             </div>
-
-            <div className="flex flex-col cursor-pointer items-center gap-x-1 rounded-md py-2 px-4">
-              <IconFavorites />
-              <span className="text-xs font-normal text-gray-500 pt-1">Orders</span>
-            </div>
-
-            <div className="flex flex-col cursor-pointer items-center gap-x-1 rounded-md py-2 px-4 last:pr-0">
-              <IconCart />
-              <span className="text-xs font-normal text-gray-500 pt-1">My cart</span>
-            </div>
-          </div>
+          )}
         </div>
       </div>
       <nav className=" py-3 max-w-[1440px] mx-auto flex items-center justify-between sticky top-0">
