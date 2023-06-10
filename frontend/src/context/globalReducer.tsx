@@ -1,25 +1,36 @@
 export enum ActionType {
-  INCREMENT_COUNTER = 'INCREMENT_COUNTER',
-  DECREMENT_COUNTER = 'DECREMENT_COUNTER',
+  SET_PROFILE = 'SET_PROFILE',
+  CLEAR_PROFILE = 'CLEAR_PROFILE',
 }
 
 export interface IReducer {
   type: ActionType;
-  count: number;
+  data: any;
 }
 
 export interface IState {
-  age: number;
+  profile: {
+    id: string;
+    name: string;
+    role: string;
+    favorites: any[];
+    email: string;
+    salt: string;
+    hash: string;
+    createdAt: Date;
+    updatedAt: Date;
+    v: number;
+  } | null;
 }
 
-export const initalState: IState = { age: 0 };
+export const initalState: IState = { profile: null };
 
 export const reducer: React.Reducer<IState, IReducer> = (state, action) => {
   switch (action.type) {
-    case ActionType.INCREMENT_COUNTER:
-      return { age: state.age + action.count };
-    case ActionType.DECREMENT_COUNTER:
-      return { age: state.age - action.count };
+    case ActionType.CLEAR_PROFILE:
+      return { profile: null };
+    case ActionType.SET_PROFILE:
+      return { profile: action.data };
     default:
       return state;
   }
