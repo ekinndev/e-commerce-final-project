@@ -6,8 +6,8 @@ const productSchema = new Schema(
     {
         name: { type: String, required: true, minlength: 2, maxlength: 64 },
         description: { type: String, required: true, minlength: 2, maxlength: 300 },
-        creator: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-        image: { type: Schema.Types.ObjectId, ref: 'File', required: true },
+        creator: { type: Schema.Types.ObjectId, ref: 'user', required: true, autopopulate: true },
+        image: { type: Schema.Types.ObjectId, ref: 'file', required: true, autopopulate: true },
     },
     { timestamps: true },
 );

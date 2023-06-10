@@ -12,6 +12,7 @@ dotenv.config();
 import userRoutes from './routes/user';
 import productRoutes from './routes/product';
 import basketRoutes from './routes/basket';
+import listingRoutes from './routes/listings';
 import cors from 'cors';
 import helmet from 'helmet';
 import compression from 'compression';
@@ -73,6 +74,7 @@ app.use('/swagger', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 app.use('/user', userRoutes);
 app.use('/product', productRoutes);
 app.use('/basket', basketRoutes);
+app.use('/listings', listingRoutes);
 
 app.get('/', (req, res) => {
     res.send({ message: 'Welcome to the API', status: 200 });
@@ -83,6 +85,7 @@ app.use('*', (req, res) => {
 });
 
 app.use((err: { status: number }, req: Request, res: Response, next: NextFunction) => {
+    console.log(err);
     let status = err.status || 500;
 
     res.status(status).send(err);

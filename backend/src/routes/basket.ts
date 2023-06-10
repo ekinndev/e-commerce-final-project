@@ -2,6 +2,7 @@ import express, { Request, Response, NextFunction } from 'express';
 import Basket from '../models/Basket';
 import { RequestWithUser } from '../types';
 import type { IProduct } from '../models/Product';
+import Listing from '../models/Listing';
 
 const router = express.Router();
 /**
@@ -16,9 +17,27 @@ const router = express.Router();
  */
 router.get('/', async (req: RequestWithUser, res: Response, next: NextFunction) => {
     const userId = req.user._id;
-    const baskets = await Basket.find({ creator: userId });
+    const baskets = await Basket.find({ user: userId }).populate({
+        path: 'products',
+        populate: {
+            path: 'productId',
+            model: 'product',
+            populate: {
+                path: 'image',
+                model: 'file',
+            },
+        },
+    });
+    const basket = { ...baskets[0].toJSON() };
 
-    res.send(baskets);
+    for (let index = 0; index < basket.products.length; index++) {
+        const product = basket.products[index];
+        const listings = await Listing.find({ product: product.productId._id });
+        const transformedProduct = { ...product.productId, listings };
+        basket.products[index].productId = transformedProduct;
+    }
+
+    res.send(basket);
 });
 /**
  * @swagger
@@ -100,7 +119,7 @@ router.delete('/:productId', async (req: RequestWithUser, res: Response, next: N
 
     if (!basket) return next({ status: 404, message: 'Basket not found' });
 
-    basket.products = basket.products.filter((product: IProduct) => product._id.toString() !== productId);
+    basket.products = basket.products.filter((product: any) => product.productId.toString() !== productId);
 
     await basket.save();
 

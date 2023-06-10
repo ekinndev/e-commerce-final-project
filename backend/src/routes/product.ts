@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 import multer from 'multer';
 import File from '../models/File';
 import serviceAccountFile from './service-account.json';
+import Listing from '../models/Listing';
 
 const upload = multer({ dest: 'uploads/' });
 
@@ -39,11 +40,13 @@ const ensureUser = (req: Request, res: Response, next: NextFunction) => {
 router.get('/:productId', async (req: RequestWithUser, res: Response, next: NextFunction) => {
     const { productId } = req.params;
 
-    const product = await Product.findById(productId);
+    const product = await Product.findById(productId).populate('image').populate('creator');
 
     if (!product) return next({ status: 404, message: 'Product not found' });
 
-    res.send(product);
+    const listings = await Listing.find({ product: product._id });
+
+    res.send({ ...product.toJSON(), listings });
 });
 /**
  * @swagger
@@ -56,9 +59,17 @@ router.get('/:productId', async (req: RequestWithUser, res: Response, next: Next
  *         description: Returns a user information with favorites
  */
 router.get('/', ensureUser, async (req: RequestWithUser, res: Response, next: NextFunction) => {
-    const products = await Product.find();
+    const products = await Product.find().populate('image').populate('creator');
+    const productsTransformed = [];
 
-    return res.send(products);
+    for (let index = 0; index < products.length; index++) {
+        const product = products[index];
+        const listings = await Listing.find({ product: product._id });
+        const transformedProduct = { ...product.toJSON(), listings };
+        productsTransformed.push(transformedProduct);
+    }
+
+    return res.send(productsTransformed);
 });
 /**
  * @swagger
