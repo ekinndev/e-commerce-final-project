@@ -40,7 +40,6 @@ export default function Home() {
       {/* <ProductDetail /> */}
       {/* <Payment /> */}
       {/* <Draw /> */}
-
       <div className="min-h-screen bg-gray-100 py-5 ">
         <div className="mx-auto max-w-[1440px] justify-center  md:grid grid-cols-12">
           <div className=" mt-6  rounded-lg  bg-white p-6 shadow-md md:mt-0 col-span-3 ">
