@@ -4,6 +4,8 @@ import { useGlobalContext } from '../context/globalCtx';
 import { useEffect, useState } from 'react';
 import apiClient from '../lib/api';
 import Link from 'next/link';
+import Payment from './payment';
+import Draw from './draw';
 
 export default function Home() {
   const router = useRouter();
@@ -36,6 +38,9 @@ export default function Home() {
       {/* <Products /> */}
       {/* <Basket/> */}
       {/* <ProductDetail /> */}
+      {/* <Payment /> */}
+      {/* <Draw /> */}
+
       <div className="min-h-screen bg-gray-100 py-5 ">
         <div className="mx-auto max-w-[1440px] justify-center  md:grid grid-cols-12">
           <div className=" mt-6  rounded-lg  bg-white p-6 shadow-md md:mt-0 col-span-3 ">
