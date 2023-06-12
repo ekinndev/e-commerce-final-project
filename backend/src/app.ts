@@ -75,6 +75,9 @@ app.use('/user', userRoutes);
 app.use('/product', productRoutes);
 app.use('/basket', basketRoutes);
 app.use('/listings', listingRoutes);
+app.use('/stripe/charge', (req, res, next) => {
+    res.send({ success: true });
+});
 
 app.get('/', (req, res) => {
     res.send({ message: 'Welcome to the API', status: 200 });

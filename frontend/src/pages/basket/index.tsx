@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import apiClient from '../../lib/api';
+import Link from 'next/link';
 
 interface IBasketItemCartProps {
   isOpen: boolean;
@@ -91,9 +92,11 @@ const BasketItemCart: React.FC<IBasketItemCartProps> = props => {
               <p className="mb-1 text-lg font-bold">${totalPrice}</p>
             </div>
           </div>
-          <button className="mt-6 w-full rounded-md py-1.5 font-medium text-green-50 hover:bg-green-600 bg-[#00B517]">
-            Checkout
-          </button>
+          <Link href="/payment">
+            <button className="mt-6 w-full rounded-md py-1.5 font-medium text-green-50 hover:bg-green-600 bg-[#00B517]">
+              Checkout
+            </button>
+          </Link>
         </div>
       </div>
     </div>
