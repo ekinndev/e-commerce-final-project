@@ -37,7 +37,7 @@ app.use(compression());
 
 app.use(
     cors({
-        origin: process.env.NODE_ENV === 'production' ? ['e-commerce-final-penwtklslq-ew.a.run.app'] : true,
+        origin: process.env.NODE_ENV === 'production' ? ['https://e-commerce-final-penwtklslq-ew.a.run.app'] : true,
         credentials: true,
     }),
 );
