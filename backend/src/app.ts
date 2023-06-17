@@ -43,6 +43,8 @@ app.use(
 );
 
 app.use(express.json());
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use(
     session({
@@ -54,15 +56,12 @@ app.use(
         cookie: {
             maxAge: 14 * 24 * 60 * 60 * 1000,
             sameSite: false,
-            secure: true,
+            secure: false,
         },
         resave: false,
         saveUninitialized: false,
     }),
 );
-
-app.use(passport.initialize());
-app.use(passport.session());
 
 passport.use(UserModel.createStrategy());
 
