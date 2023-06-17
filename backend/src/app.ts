@@ -31,6 +31,7 @@ declare global {
 }
 
 const app = express();
+app.set('trust proxy', 1);
 
 app.use(helmet());
 app.use(compression());
@@ -52,6 +53,7 @@ app.use(
             stringify: false,
         }) as unknown as session.Store,
         secret: 'thisissupposedtobeasecret',
+        name: 'MyCoolWebAppCookieName',
         cookie: {
             maxAge: 14 * 24 * 60 * 60 * 1000,
             sameSite: 'none',
