@@ -54,7 +54,7 @@ app.use(
         secret: 'thisissupposedtobeasecret',
         cookie: {
             maxAge: 14 * 24 * 60 * 60 * 1000,
-            sameSite: false,
+            sameSite: 'none',
             secure: false,
         },
         resave: false,

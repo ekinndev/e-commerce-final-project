@@ -7,7 +7,7 @@ import { ActionType } from '../../context/globalReducer';
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { state, dispatch } = useGlobalContext();
   useEffect(() => {
-    apiClient('/user/me').then(res => {
+    apiClient.get('/user/me').then(res => {
       if (res.data) {
         dispatch({ type: ActionType.SET_PROFILE, data: res.data });
       }
