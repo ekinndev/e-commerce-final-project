@@ -44,7 +44,6 @@ app.use(
 
 app.use(express.json());
 app.use(passport.initialize());
-app.use(passport.session());
 
 app.use(
     session({
@@ -62,7 +61,7 @@ app.use(
         saveUninitialized: false,
     }),
 );
-
+app.use(passport.session());
 passport.use(UserModel.createStrategy());
 
 passport.serializeUser(UserModel.serializeUser());
