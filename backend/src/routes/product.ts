@@ -58,7 +58,7 @@ router.get('/:productId', async (req: RequestWithUser, res: Response, next: Next
  *       200:
  *         description: Returns a user information with favorites
  */
-router.get('/', ensureUser, async (req: RequestWithUser, res: Response, next: NextFunction) => {
+router.get('/', async (req: RequestWithUser, res: Response, next: NextFunction) => {
     const products = await Product.find().populate('image').populate('creator');
     const productsTransformed = [];
 
