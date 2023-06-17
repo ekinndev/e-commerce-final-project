@@ -1,3 +1,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.ais-SearchBox-form {
+  @apply flex gap-x-2;
+}
+.ais-SearchBox-input {
+  @apply w-full flex-grow px-3 py-2 text-base leading-6 text-gray-700 placeholder-gray-400 bg-white border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:shadow-blue-300 focus:border-blue-300 transition duration-150 ease-in-out;
+}
+.ais-SearchBox-reset {
+  @apply hidden;
+}
+.hits-container {
+  @apply grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5;
+}
