@@ -4,6 +4,7 @@ import passport from 'passport';
 import UserModel from '../models/User';
 import type { RequestWithUser } from '../types';
 import type { IProduct } from '../models/Product';
+import Listing from '../models/Listing';
 
 declare module 'express-session' {
     export interface SessionData {
@@ -126,10 +127,28 @@ router.post(
  *       200:
  *         description: Returns a user information with favorites
  */
-router.get('/me', (req, res, next) => {
+router.get('/me', async (req, res, next) => {
     if (!req.user) return res.status(401).send({ message: 'Unauthorized', status: 401 });
 
-    res.send(req.user);
+    const user = await UserModel.findById((req.user as any)._id).populate({
+        path: 'favorites',
+        populate: {
+            path: 'image',
+            model: 'file',
+        },
+    });
+
+    const favorites = user.favorites;
+
+    const favoritesWithListing = [];
+
+    for (let index = 0; index < favorites.length; index++) {
+        const product = favorites[index] as IProduct;
+        const listings = await Listing.findOne({ product: product._id });
+        favoritesWithListing.push({ ...product.toJSON(), listings: [listings.toJSON()] });
+    }
+
+    res.send({ ...user.toJSON(), favorites: favoritesWithListing });
 });
 
 /**
@@ -177,6 +196,7 @@ router.delete('/logout', async (req, res, next) => {
  */
 router.post('/favorites', async (req: RequestWithUser, res, next) => {
     try {
+        console.log(req.user);
         const { productId } = req.body;
         if (req.user) {
             const user = await UserModel.findById(req.user._id);
@@ -193,7 +213,7 @@ router.post('/favorites', async (req: RequestWithUser, res, next) => {
 
             await user.save();
 
-            res.sendStatus(200);
+            res.send(user.favorites);
         }
     } catch (e) {
         next(e);
@@ -205,7 +225,7 @@ router.post('/favorites', async (req: RequestWithUser, res, next) => {
  *   delete:
  *     tags: [USER]
  *     summary: Remove a product from favorites
-*     parameters:
+ *     parameters:
  *       - in: path
  *         name: productId
  *         required: true

@@ -2,10 +2,14 @@ import { useRouter } from 'next/router';
 import React, { FC, useEffect, useState } from 'react';
 import apiClient from '../../lib/api';
 import { toast } from 'react-toastify';
+import { useGlobalContext } from '../../context/globalCtx';
+import { ActionType } from '../../context/globalReducer';
 
 const ProductDetail: FC = props => {
   const [product, setProduct] = useState<any>(null);
   const router = useRouter();
+  const { state, dispatch } = useGlobalContext();
+
   useEffect(() => {
     if (!router.query?.slug) return;
     apiClient.get(`/product/${router.query.slug}`).then(product => {
@@ -19,6 +23,26 @@ const ProductDetail: FC = props => {
   };
 
   if (!product) return <div>Loading...</div>;
+
+  const isFavorite = state.profile?.favorites?.some((fav: any) => fav._id === product._id);
+
+  const addToFavorite = async () => {
+    if (isFavorite) {
+      await apiClient.delete(`/user/favorites/${product._id}`);
+      const user = await apiClient.get('/user/me');
+      if (user) {
+        dispatch({ type: ActionType.SET_PROFILE, data: user });
+      }
+      return toast.success('Product removed from favorites');
+    }
+
+    await apiClient.post('/user/favorites', { productId: product._id });
+    const user = await apiClient.get('/user/me');
+    if (user) {
+      dispatch({ type: ActionType.SET_PROFILE, data: user.data });
+    }
+    toast.success('Product added to favorites');
+  };
 
   return (
     <div className="h-screen bg-gray-100 pt-20">
@@ -114,6 +138,12 @@ const ProductDetail: FC = props => {
                     className="bg-[#0D6EFD] hover:bg-white text-white font-semibold hover:text-[#0D6EFD] py-1 px-4 border border-gray-300 hover:border-gray-300 rounded"
                   >
                     Add to basket
+                  </button>
+                  <button
+                    onClick={addToFavorite}
+                    className="bg-red-800 hover:bg-white text-white font-semibold hover:text-[#0D6EFD] py-1 px-4 border border-gray-300 hover:border-gray-300 rounded"
+                  >
+                    {isFavorite ? 'Remove from favorites' : 'Add to favorite'}
                   </button>
                 </div>
               </div>
