@@ -56,8 +56,8 @@ app.use(
         name: 'MyCoolWebAppCookieName',
         cookie: {
             maxAge: 14 * 24 * 60 * 60 * 1000,
-            sameSite: 'none',
-            secure: true,
+            sameSite: process.env.NODE_ENV === 'development' ? 'lax' : 'none',
+            secure: process.env.NODE_ENV === 'production' ? true : false,
             httpOnly: true,
         },
         resave: false,
