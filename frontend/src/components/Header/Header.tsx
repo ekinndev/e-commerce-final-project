@@ -100,7 +100,7 @@ const Header: FC = props => {
       <nav className=" py-3 max-w-[1440px] mx-auto flex items-center justify-between sticky top-0">
         <div className="flex gap-x-4 items-center">
           <Link href="/draw">
-            <span className="cursor-pointer rounded-sm py-1 px-2 text-sm font-medium ">Hot offers</span>
+            <span className="cursor-pointer rounded-sm py-1 px-2 text-sm font-medium ">Çekiliş</span>
           </Link>
         </div>
       </nav>
